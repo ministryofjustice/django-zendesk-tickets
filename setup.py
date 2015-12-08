@@ -19,5 +19,6 @@ setup(
     classifiers=[
         'Framework :: Django',
         'Intended Audience :: Python Developers',
-    ]
+    ],
+    test_suite='runtests.runtests'
 )

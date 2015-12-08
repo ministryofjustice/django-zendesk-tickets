@@ -42,7 +42,7 @@ class TicketForm(BaseTicketForm):
     def submit_ticket(self, request, subject, tags,
                       ticket_template_name, extra_context={}):
         extra_context = dict(extra_context, **{
-            'username': getattr(request.user, 'username', 'Anonymous'),
+            'username': getattr(request.user, 'username') or 'Anonymous',
             'user_agent': request.META.get('HTTP_USER_AGENT')
         })
 

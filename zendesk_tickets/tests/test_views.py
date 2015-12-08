@@ -69,7 +69,7 @@ class SubmitFeedbackTestCase(SimpleTestCase):
              'group_id': 222222,
              'comment': {'body': 'The internet is broken.'},
              'requester_id': 111111, 'custom_fields':
-             [{'id': 32, 'value': ''}, {'id': 31, 'value': '/other/page'},
+             [{'id': 32, 'value': 'Anonymous'}, {'id': 31, 'value': '/other/page'},
               {'id': 33, 'value': 'test_client'}]}),
             ('zendesk_user/token', 'api_token'),
             {'content-type': 'application/json'}

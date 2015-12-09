@@ -25,7 +25,7 @@ class BaseTicketForm(forms.Form):
         context = Context(dict(self.cleaned_data, **extra_context))
         body = loader.get_template(ticket_template_name).render(context)
 
-        client.create_ticket(
+        return client.create_ticket(
             subject,
             tags,
             body,
@@ -46,5 +46,5 @@ class TicketForm(BaseTicketForm):
             'user_agent': request.META.get('HTTP_USER_AGENT')
         })
 
-        super().submit_ticket(request, subject, tags,
-                              ticket_template_name, extra_context)
+        return super().submit_ticket(request, subject, tags,
+                                     ticket_template_name, extra_context)

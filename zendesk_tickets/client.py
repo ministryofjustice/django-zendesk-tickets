@@ -17,7 +17,7 @@ def zendesk_auth():
 def create_ticket(subject, tags, ticket_body, custom_fields=[]):
     """ Create a new Zendesk ticket """
 
-    payload = {
+    payload = {'ticket': {
         'requester_id': settings.ZENDESK_REQUESTER_ID,
         'subject': subject,
         'comment': {
@@ -26,7 +26,7 @@ def create_ticket(subject, tags, ticket_body, custom_fields=[]):
         'group_id': settings.ZENDESK_GROUP_ID,
         'tags': tags,
         'custom_fields': custom_fields
-    }
+    }}
 
     return requests.post(
         TICKETS_URL,

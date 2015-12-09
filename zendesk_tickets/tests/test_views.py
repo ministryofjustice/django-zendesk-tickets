@@ -79,6 +79,33 @@ class SubmitFeedbackTestCase(SimpleTestCase):
 
         self.assertTrue(mock_requests.post.side_effect.called)
 
+    def test_no_username_attr_handled(self, mock_requests):
+        form_data = {
+            'referer': '/other/page',
+            'ticket_content': 'The internet is broken.'
+        }
+
+        request = self.factory.post(reverse('submit_ticket'), data=form_data)
+        request.user = object()
+        request.META['HTTP_USER_AGENT'] = 'test_client'
+
+        mock_requests.post.side_effect = AssertCalledZendeskPost(
+            self,
+            'https://test.notzendesk.com/api/v2/tickets.json',
+            ({'subject': 'Website Ticket', 'tags': ['test'],
+             'group_id': 222222,
+             'comment': {'body': 'The internet is broken.'},
+             'requester_id': 111111, 'custom_fields':
+             [{'id': 32, 'value': 'Anonymous'}, {'id': 31, 'value': '/other/page'},
+              {'id': 33, 'value': 'test_client'}]}),
+            ('zendesk_user/token', 'api_token'),
+            {'content-type': 'application/json'}
+        )
+
+        ticket(request, template_name='submit_ticket.html', tags=['test'])
+
+        self.assertTrue(mock_requests.post.side_effect.called)
+
     @override_settings(ZENDESK_CUSTOM_FIELDS={})
     def test_no_custom_fields_included_if_not_defined(self, mock_requests):
         form_data = {

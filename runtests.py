@@ -37,6 +37,10 @@ DEFAULT_SETTINGS = dict(
 
 
 def runtests():
+    if 'setup.py' in sys.argv:
+        # allows `python setup.py test` as well as `./runtests.py`
+        sys.argv = ['runtests.py']
+
     parser = argparse.ArgumentParser()
     parser.add_argument('test_labels', nargs='*', default=['zendesk_tickets.tests'])
     parser.add_argument('--verbosity', type=int, choices=list(range(4)), default=1)

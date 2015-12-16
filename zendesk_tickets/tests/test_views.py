@@ -39,6 +39,7 @@ class AssertCalledZendeskPost(object):
         self.test_case.assertEqual(
             headers, self.expected_headers
         )
+        return mock.MagicMock()
 
 
 @mock.patch('zendesk_tickets.client.requests')
@@ -79,6 +80,29 @@ class SubmitFeedbackTestCase(SimpleTestCase):
 
         self.assertTrue(mock_requests.post.side_effect.called)
 
+    def test_ticket_success_provides_next_to_redirect(self, mock_requests):
+        form_data = {
+            'referer': '/other/page',
+            'ticket_content': 'The internet is broken.'
+        }
+
+        request = self.factory.post(reverse('submit_ticket'), data=form_data)
+        request.user = AnonymousUser()
+        request.META['HTTP_USER_AGENT'] = 'test_client'
+
+        response = ticket(request, template_name='submit_ticket.html', tags=['test'])
+        self.assertEqual(response.url, '/?next=/other/page')
+
+    def test_success_adds_next_to_context(self, mock_requests):
+        response = self.client.get(reverse('feedback_success'),
+                                   {'next': '/other/page'})
+        self.assertEqual(response.context['return_to'], '/other/page')
+
+    def test_dodgy_next_not_used(self, mock_requests):
+        response = self.client.get(reverse('feedback_success'),
+                                   {'next': 'https://www.phishing.com'})
+        self.assertEqual(response.context['return_to'], None)
+
     def test_no_username_attr_handled(self, mock_requests):
         form_data = {
             'referer': '/other/page',
@@ -86,6 +110,7 @@ class SubmitFeedbackTestCase(SimpleTestCase):
         }
 
         request = self.factory.post(reverse('submit_ticket'), data=form_data)
+        # set user object with no username attribute
         request.user = object()
         request.META['HTTP_USER_AGENT'] = 'test_client'
 

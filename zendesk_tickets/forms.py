@@ -25,7 +25,7 @@ class BaseTicketForm(forms.Form):
         context = Context(dict(self.cleaned_data, **extra_context))
         body = loader.get_template(ticket_template_name).render(context)
 
-        return client.create_ticket(
+        client.create_ticket(
             subject,
             tags,
             body,

@@ -10,4 +10,8 @@ urlpatterns = [
             'subject': 'Test Feedback',
             'tags': ['feedback', 'test']
         }, name='submit_ticket'),
+    url(r'^feedback/success$', views.success,
+        {
+            'template_name': 'success.html',
+        }, name='feedback_success'),
 ]

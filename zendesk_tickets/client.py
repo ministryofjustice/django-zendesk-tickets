@@ -28,8 +28,8 @@ def create_ticket(subject, tags, ticket_body, custom_fields=[]):
         'custom_fields': custom_fields
     }}
 
-    return requests.post(
+    requests.post(
         TICKETS_URL,
         data=json.dumps(payload),
         auth=zendesk_auth(),
-        headers={'content-type': 'application/json'})
+        headers={'content-type': 'application/json'}).raise_for_status()

@@ -15,7 +15,7 @@ setup(
     license='MIT License',
     description='',
     long_description=README,
-    install_requires=['Django>=1.8,<1.9', 'requests', ],
+    install_requires=['Django>=1.8', 'requests', ],
     classifiers=[
         'Framework :: Django',
         'Intended Audience :: Python Developers',

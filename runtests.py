@@ -12,8 +12,16 @@ DEFAULT_SETTINGS = dict(
     SECRET_KEY='a' * 24,
     ROOT_URLCONF='zendesk_tickets.tests.urls',
     INSTALLED_APPS=(
+        'django.contrib.auth',
+        'django.contrib.contenttypes',
+        'django.contrib.sessions',
         'zendesk_tickets',
     ),
+    MIDDLEWARE_CLASSES=[
+        'django.contrib.sessions.middleware.SessionMiddleware',
+        'django.contrib.auth.middleware.AuthenticationMiddleware',
+    ],
+    SESSION_ENGINE='django.contrib.sessions.backends.signed_cookies',
     TEMPLATES=[{
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
         'DIRS': [],

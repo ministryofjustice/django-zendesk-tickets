@@ -13,6 +13,13 @@ from .forms import TicketForm
 RETURN_URL_FIELD = 'next'
 
 
+def get_safe_return_to(request, return_to):
+    # Ensure the user-originating redirection url is safe.
+    if not return_to or not is_safe_url(url=return_to, host=request.get_host()):
+        return None
+    return return_to
+
+
 def ticket(request,
            template_name=None,
            success_redirect_url='/',
@@ -23,31 +30,29 @@ def ticket(request,
     if request.method == 'POST':
         form = form_class(request.POST)
         if form.is_valid():
+            return_to = get_safe_return_to(request, form.cleaned_data.get('referer'))
             try:
                 form.submit_ticket(request, subject, tags, ticket_template_name)
-                referer = form.cleaned_data.get('referer')
-                if referer:
-                    come_from = urlparse(referer).path
+                if return_to:
+                    return_to = urlparse(return_to).path
                     success_redirect_url = (
                         success_redirect_url +
-                        ('?%s=%s' % (RETURN_URL_FIELD, come_from))
+                        ('?%s=%s' % (RETURN_URL_FIELD, return_to))
                     )
                 return HttpResponseRedirect(success_redirect_url)
             except HTTPError:
                 form.add_error(NON_FIELD_ERRORS, _('Unexpected error.'))
+        else:
+            return_to = get_safe_return_to(request.POST.get('referer'))
     else:
+        return_to = get_safe_return_to(request, request.META.get('HTTP_REFERER'))
         form = form_class(
-            initial={'referer': request.META.get('HTTP_REFERER')}
+            initial={'referer': return_to}
         )
 
-    return render(request, template_name, {'form': form})
+    return render(request, template_name, {'form': form, 'return_to': return_to})
 
 
 def success(request, template_name=None):
-    return_to = request.GET.get(RETURN_URL_FIELD)
-
-    # Ensure the user-originating redirection url is safe.
-    if not return_to or not is_safe_url(url=return_to, host=request.get_host()):
-        return_to = None
-
+    return_to = get_safe_return_to(request, request.GET.get(RETURN_URL_FIELD))
     return TemplateResponse(request, template_name, {'return_to': return_to})

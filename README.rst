@@ -48,7 +48,7 @@ to include them as custom fields, define the following in your ``settings.py``:
 .. code-block:: python
 
     ZENDESK_CUSTOM_FIELDS={
-        'referer': 31, # zendesk field id
+        'referer': 31,  # zendesk field id
         'username': 32,
         'user_agent': 33
     }
@@ -60,7 +60,7 @@ template or specifying custom field ids in settings.
 Copyright
 ---------
 
-Copyright |copy| 2015 HM Government (Ministry of Justice Digital Services). See
+Copyright |copy| 2016 HM Government (Ministry of Justice Digital Services). See
 LICENSE for further details.
 
 .. |copy| unicode:: 0xA9 .. copyright symbol

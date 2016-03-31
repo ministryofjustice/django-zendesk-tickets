@@ -43,7 +43,7 @@ def ticket(request,
             except HTTPError:
                 form.add_error(NON_FIELD_ERRORS, _('Unexpected error.'))
         else:
-            return_to = get_safe_return_to(request.POST.get('referer'))
+            return_to = get_safe_return_to(request, request.POST.get('referer'))
     else:
         return_to = get_safe_return_to(request, request.META.get('HTTP_REFERER'))
         form = form_class(

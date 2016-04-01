@@ -1,12 +1,15 @@
 from django import forms
 from django.conf import settings
 from django.template import loader, Context
-from django.utils.translation import ugettext as _
+from django.utils.translation import ugettext_lazy as _
 
 from . import client
 
 
 class BaseTicketForm(forms.Form):
+    """
+    Base feedback form, only collects HTTP referrer
+    """
     referer = forms.CharField(widget=forms.HiddenInput, required=False)
 
     def _populate_custom_fields(self, context):
@@ -34,8 +37,11 @@ class BaseTicketForm(forms.Form):
 
 
 class TicketForm(BaseTicketForm):
+    """
+    Simple feedback form
+    """
     ticket_content = forms.CharField(
-        label=_('Please enter any feedback that you have'),
+        label=_('Enter your feedback or any questions you have about this service.'),
         widget=forms.Textarea
     )
 
@@ -48,3 +54,12 @@ class TicketForm(BaseTicketForm):
 
         return super().submit_ticket(request, subject, tags,
                                      ticket_template_name, extra_context)
+
+
+class EmailTicketForm(TicketForm):
+    """
+    Feedback form that also allows entering an email address
+    """
+    contact_email = forms.EmailField(
+        label=_('Your email address'), required=False
+    )

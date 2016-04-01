@@ -15,13 +15,13 @@ if sys.version_info < (3, 3):
 
 setup(
     name='django-zendesk-tickets',
-    version='0.5',
+    version='0.6',
     packages=['zendesk_tickets'],
     include_package_data=True,
     license='MIT License',
     description='',
     long_description=README,
-    install_requires=['Django>=1.9', 'requests'],
+    install_requires=['Django>=1.9,<1.10', 'requests'],
     classifiers=[
         'Framework :: Django',
         'Intended Audience :: Python Developers',

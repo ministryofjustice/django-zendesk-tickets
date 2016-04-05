@@ -15,7 +15,7 @@ if sys.version_info < (3, 3):
 
 setup(
     name='django-zendesk-tickets',
-    version='0.6',
+    version='0.7',
     packages=['zendesk_tickets'],
     include_package_data=True,
     license='MIT License',

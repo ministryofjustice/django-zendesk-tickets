@@ -39,7 +39,8 @@ DEFAULT_SETTINGS = dict(
     ZENDESK_CUSTOM_FIELDS={
         'referer': 31,
         'username': 32,
-        'user_agent': 33
+        'user_agent': 33,
+        'contact_email': 34
     }
 )
 

@@ -82,14 +82,37 @@ class SubmitFeedbackTestCase(SimpleTestCase):
 
         self.assertTrue(mock_requests.post.side_effect.called)
 
-    @override_settings(
-        ZENDESK_CUSTOM_FIELDS={
-            'referer': 31,
-            'username': 32,
-            'user_agent': 33,
-            'contact_email': 34,
+    def test_ticket_success_with_user(self, mock_requests):
+        form_data = {
+            'referer': '/other/page',
+            'ticket_content': 'The internet is broken.'
         }
-    )
+
+        request = self.factory.post(reverse('submit_ticket'), data=form_data)
+        request.user = mock.MagicMock()
+        request.user.username = 'TestUser'
+        request.user.email = 'test@user.com'
+        request.META['HTTP_USER_AGENT'] = 'test_client'
+
+        mock_requests.post.side_effect = AssertCalledZendeskPost(
+            self,
+            'https://test.notzendesk.com/api/v2/tickets.json',
+            {'ticket': {'subject': 'Website Ticket', 'tags': ['test'],
+                        'group_id': 222222,
+                        'comment': {'body': 'The internet is broken.'},
+                        'requester': {'name': 'Sender: test',
+                                      'email': 'test@user.com'},
+                        'custom_fields': [{'id': 32, 'value': 'TestUser'},
+                                          {'id': 31, 'value': '/other/page'},
+                                          {'id': 33, 'value': 'test_client'}]}},
+            ('zendesk_user/token', 'api_token'),
+            {'content-type': 'application/json'}
+        )
+
+        ticket(request, template_name='submit_ticket.html', tags=['test'])
+
+        self.assertTrue(mock_requests.post.side_effect.called)
+
     def test_ticket_success_with_contact_email(self, mock_requests):
         form_data = {
             'referer': '/other/page',
@@ -114,8 +137,8 @@ class SubmitFeedbackTestCase(SimpleTestCase):
             {'content-type': 'application/json'}
         )
 
-        request = self.client.post(reverse('submit_ticket_with_email'), data=form_data,
-                                   HTTP_USER_AGENT='test_client')
+        self.client.post(reverse('submit_ticket_with_email'), data=form_data,
+                         HTTP_USER_AGENT='test_client')
         self.assertTrue(mock_requests.post.side_effect.called)
 
     def test_ticket_success_provides_next_to_redirect(self, _):

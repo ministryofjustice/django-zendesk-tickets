@@ -23,8 +23,8 @@ class BaseTicketForm(forms.Form):
                 })
         return fields
 
-    def submit_ticket(self, request, subject, tags,
-                      ticket_template_name, extra_context={}):
+    def submit_ticket(self, request, subject, tags, ticket_template_name,
+                      requester_email=None, extra_context={}):
         context = Context(dict(self.cleaned_data, **extra_context))
         body = loader.get_template(ticket_template_name).render(context)
 
@@ -32,7 +32,8 @@ class BaseTicketForm(forms.Form):
             subject,
             tags,
             body,
-            self._populate_custom_fields(context)
+            requester_email=requester_email,
+            custom_fields=self._populate_custom_fields(context)
         )
 
 
@@ -45,15 +46,18 @@ class TicketForm(BaseTicketForm):
         widget=forms.Textarea
     )
 
-    def submit_ticket(self, request, subject, tags,
-                      ticket_template_name, extra_context={}):
+    def submit_ticket(self, request, subject, tags, ticket_template_name,
+                      requester_email=None, extra_context={}):
         extra_context = dict(extra_context, **{
             'username': getattr(request.user, 'username', None) or 'Anonymous',
             'user_agent': request.META.get('HTTP_USER_AGENT')
         })
 
-        return super().submit_ticket(request, subject, tags,
-                                     ticket_template_name, extra_context)
+        if not requester_email:
+            requester_email = getattr(request.user, 'email', None)
+
+        return super().submit_ticket(request, subject, tags, ticket_template_name,
+                                     requester_email, extra_context)
 
 
 class EmailTicketForm(TicketForm):
@@ -63,3 +67,11 @@ class EmailTicketForm(TicketForm):
     contact_email = forms.EmailField(
         label=_('Your email address'), required=False
     )
+
+    def submit_ticket(self, request, subject, tags, ticket_template_name,
+                      requester_email=None, extra_context={}):
+        if not requester_email:
+            requester_email = self.cleaned_data['contact_email']
+
+        return super().submit_ticket(request, subject, tags, ticket_template_name,
+                                     requester_email, extra_context)

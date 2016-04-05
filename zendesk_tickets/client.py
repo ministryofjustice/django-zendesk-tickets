@@ -14,14 +14,8 @@ def zendesk_auth():
     )
 
 
-def get_requester_email(custom_fields):
-    contact_email_field_id = settings.ZENDESK_CUSTOM_FIELDS.get('contact_email')
-    for custom_field in custom_fields:
-        if custom_field['id'] == contact_email_field_id:
-            return custom_field['value']
-
-
-def create_ticket(subject, tags, ticket_body, custom_fields=[]):
+def create_ticket(subject, tags, ticket_body, requester_email=None,
+                  custom_fields=[]):
     """ Create a new Zendesk ticket """
 
     payload = {'ticket': {
@@ -33,7 +27,7 @@ def create_ticket(subject, tags, ticket_body, custom_fields=[]):
         'tags': tags,
         'custom_fields': custom_fields
     }}
-    requester_email = get_requester_email(custom_fields)
+
     if requester_email:
         payload['ticket']['requester'] = {
             'name': 'Sender: %s' % requester_email.split('@')[0],

@@ -1,6 +1,6 @@
 from django.conf.urls import url
 
-from .. import forms, views
+from zendesk_tickets import forms, views
 
 urlpatterns = [
     url(r'^feedback/$', views.ticket,

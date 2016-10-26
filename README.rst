@@ -1,15 +1,6 @@
 Django Zendesk Tickets
 ======================
 
-Installation
-------------
-
-At the moment, the only way to install the library is from github
-
-.. code-block:: bash
-
-    pip install git+https://github.com/ministryofjustice/django-zendesk-tickets.git
-
 Settings
 --------
 
@@ -37,7 +28,8 @@ Add an entry to your urls.py
             'ticket_template_name': 'zendesk_tickets/ticket.txt',
             'form_class': forms.TicketForm,
             'subject': 'Website Ticket',
-            'tags': []
+            'tags': [],
+            'extra_context': {},
         }, name='submit_ticket'),
 
 If you wish to include additional fields, subclass ``BaseTicketForm`` and

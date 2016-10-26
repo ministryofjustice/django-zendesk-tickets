@@ -10,7 +10,7 @@ from django.test.runner import DiscoverRunner
 DEFAULT_SETTINGS = dict(
     DEBUG=True,
     SECRET_KEY='a' * 24,
-    ROOT_URLCONF='zendesk_tickets.tests.urls',
+    ROOT_URLCONF='tests.urls',
     INSTALLED_APPS=(
         'django.contrib.auth',
         'django.contrib.contenttypes',
@@ -28,7 +28,7 @@ DEFAULT_SETTINGS = dict(
         'APP_DIRS': False,
         'OPTIONS': {
             'context_processors': [],
-            'loaders': ['zendesk_tickets.tests.DummyTemplateLoader']
+            'loaders': ['tests.DummyTemplateLoader']
         },
     }],
     ZENDESK_BASE_URL='https://test.notzendesk.com',
@@ -51,7 +51,7 @@ def runtests():
         sys.argv = ['runtests.py']
 
     parser = argparse.ArgumentParser()
-    parser.add_argument('test_labels', nargs='*', default=['zendesk_tickets.tests'])
+    parser.add_argument('test_labels', nargs='*', default=['tests'])
     parser.add_argument('--verbosity', type=int, choices=list(range(4)), default=1)
     parser.add_argument('--noinput', dest='interactive',
                         action='store_false', default=True)

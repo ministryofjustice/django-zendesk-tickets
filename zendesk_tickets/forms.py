@@ -56,8 +56,8 @@ class TicketForm(BaseTicketForm):
         if not requester_email:
             requester_email = getattr(request.user, 'email', None)
 
-        return super().submit_ticket(request, subject, tags, ticket_template_name,
-                                     requester_email, extra_context)
+        return super(TicketForm, self).submit_ticket(request, subject, tags, ticket_template_name,
+                                                     requester_email, extra_context)
 
 
 class EmailTicketForm(TicketForm):
@@ -73,5 +73,5 @@ class EmailTicketForm(TicketForm):
         if not requester_email:
             requester_email = self.cleaned_data['contact_email']
 
-        return super().submit_ticket(request, subject, tags, ticket_template_name,
-                                     requester_email, extra_context)
+        return super(EmailTicketForm, self).submit_ticket(request, subject, tags, ticket_template_name,
+                                                          requester_email, extra_context)

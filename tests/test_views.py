@@ -8,7 +8,7 @@ from django.contrib.auth.models import AnonymousUser
 from django.core.urlresolvers import reverse
 from django.test import SimpleTestCase, RequestFactory, override_settings
 
-from ..views import ticket
+from zendesk_tickets.views import ticket
 
 
 class AssertCalledZendeskPost(object):

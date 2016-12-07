@@ -26,7 +26,7 @@ class BaseTicketForm(forms.Form):
     def submit_ticket(self, request, subject, tags, ticket_template_name,
                       requester_email=None, extra_context={}):
         context = Context(dict(self.cleaned_data, **extra_context))
-        body = loader.get_template(ticket_template_name).render(context)
+        body = loader.get_template(ticket_template_name).render(context).strip()
 
         client.create_ticket(
             subject,

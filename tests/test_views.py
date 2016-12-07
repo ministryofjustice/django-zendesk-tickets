@@ -116,7 +116,7 @@ class SubmitFeedbackTestCase(SimpleTestCase):
     def test_ticket_success_with_contact_email(self, mock_requests):
         form_data = {
             'referer': '/other/page',
-            'ticket_content': 'Here is some feedback.',
+            'ticket_content': 'Here is some feedback.\n  <script>alert("hello ");</script>  \n',
             'contact_email': 'example@example.com',
         }
 
@@ -126,7 +126,7 @@ class SubmitFeedbackTestCase(SimpleTestCase):
             {'ticket': {'subject': 'Test Feedback with email address',
                         'tags': ['feedback', 'test', 'with-email'],
                         'group_id': 222222,
-                        'comment': {'body': 'Here is some feedback.'},
+                        'comment': {'body': 'Here is some feedback.\n  <script>alert("hello ");</script>'},
                         'requester': {'name': 'Sender: example',
                                       'email': 'example@example.com'},
                         'custom_fields': [{'id': 32, 'value': 'Anonymous'},

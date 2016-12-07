@@ -13,9 +13,9 @@ RETURN_URL_FIELD = 'next'
 
 def get_safe_return_to(request, return_to):
     # Ensure the user-originating redirection url is safe.
-    if not return_to or not is_safe_url(url=return_to, host=request.get_host()):
-        return None
-    return return_to
+    if return_to and is_safe_url(url=return_to, host=request.get_host()) and return_to != request.build_absolute_uri():
+        return return_to
+    return None
 
 
 def ticket(request,

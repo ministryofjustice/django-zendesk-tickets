@@ -4,11 +4,8 @@ import sys
 
 from setuptools import find_packages, setup
 
-# allow setup.py to be run from any path
-os.chdir(os.path.normpath(os.path.join(os.path.abspath(__file__), os.pardir)))
-
 __version__ = importlib.import_module('zendesk_tickets').__version__
-with open('README.rst') as readme:
+with open(os.path.join(os.path.dirname(__file__), 'README.rst')) as readme:
     README = readme.read()
 
 tests_require = ['flake8']

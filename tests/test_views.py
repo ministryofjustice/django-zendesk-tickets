@@ -5,8 +5,8 @@ except ImportError:
     import mock
 
 from django.contrib.auth.models import AnonymousUser
-from django.core.urlresolvers import reverse
 from django.test import SimpleTestCase, RequestFactory, override_settings
+from django.urls import reverse
 
 from zendesk_tickets.views import ticket
 

@@ -1,6 +1,6 @@
 from django import forms
 from django.conf import settings
-from django.template import loader, Context
+from django.template import loader
 from django.utils.translation import ugettext_lazy as _
 
 from . import client
@@ -25,7 +25,7 @@ class BaseTicketForm(forms.Form):
 
     def submit_ticket(self, request, subject, tags, ticket_template_name,
                       requester_email=None, extra_context={}):
-        context = Context(dict(self.cleaned_data, **extra_context))
+        context = dict(self.cleaned_data, **extra_context)
         body = loader.get_template(ticket_template_name).render(context).strip()
 
         client.create_ticket(

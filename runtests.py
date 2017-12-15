@@ -17,7 +17,7 @@ DEFAULT_SETTINGS = dict(
         'django.contrib.sessions',
         'zendesk_tickets',
     ),
-    MIDDLEWARE_CLASSES=[
+    MIDDLEWARE=[
         'django.contrib.sessions.middleware.SessionMiddleware',
         'django.contrib.auth.middleware.AuthenticationMiddleware',
     ],

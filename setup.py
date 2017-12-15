@@ -11,7 +11,7 @@ __version__ = importlib.import_module('zendesk_tickets').__version__
 with open('README.rst') as readme:
     README = readme.read()
 
-tests_require = ['flake8>=2.5,<3.0']
+tests_require = ['flake8']
 if sys.version_info < (3, 3):
     tests_require.append('mock>=1.3')
 
@@ -32,8 +32,10 @@ setup(
         'Operating System :: OS Independent',
         'Programming Language :: Python :: 2.7',
         'Programming Language :: Python :: 3.4',
+        'Programming Language :: Python :: 3.5',
+        'Programming Language :: Python :: 3.6',
     ],
-    install_requires=['Django>=1.9,<1.10', 'requests', 'six'],
+    install_requires=['Django>=1.10,<2.1', 'requests', 'six'],
     tests_require=tests_require,
     test_suite='runtests.runtests',
 )

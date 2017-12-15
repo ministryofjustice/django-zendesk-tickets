@@ -1,27 +1,24 @@
 import os
-import re
 import sys
 import unittest
 
-from flake8.engine import get_style_guide
+from flake8.main import application
 from six import StringIO
 
 
 class CodeStyleTestCase(unittest.TestCase):
     def test_app_python_code_style(self):
+        current_path = os.getcwd()
         root_path = os.path.dirname(os.path.dirname(__file__))
-        flake8_style = get_style_guide(
-            config_file=os.path.join(root_path, 'setup.cfg'),
-            paths=[root_path],
-        )
-        stdout, sys.stdout = sys.stdout, StringIO()
-        report = flake8_style.check_files()
-        output, sys.stdout = sys.stdout, stdout
-        if report.total_errors:
-            message = '\n\n'
-            line_prefix = re.compile(r'^%s' % root_path)
-            output.seek(0)
-            for line in output.readlines():
-                line = line_prefix.sub('', line).lstrip('/')
-                message += line
-            self.fail(message)
+        stdout, stderr = sys.stdout, sys.stderr
+        try:
+            os.chdir(root_path)
+            output = StringIO()
+            sys.stdout, sys.stderr = output, output
+            app = application.Application()
+            app.run()
+            if app.result_count:
+                self.fail('Code style errors:\n%s' % output.getvalue())
+        finally:
+            sys.stdout, sys.stderr = stdout, stderr
+            os.chdir(current_path)

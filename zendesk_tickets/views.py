@@ -1,4 +1,4 @@
-from django.forms.forms import NON_FIELD_ERRORS
+from django.core.exceptions import NON_FIELD_ERRORS
 from django.http import HttpResponseRedirect
 from django.shortcuts import render
 from django.utils.http import is_safe_url

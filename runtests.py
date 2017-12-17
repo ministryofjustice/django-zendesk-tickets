@@ -9,7 +9,7 @@ from django.test.runner import DiscoverRunner
 
 DEFAULT_SETTINGS = dict(
     DEBUG=True,
-    SECRET_KEY='a' * 24,
+    SECRET_KEY='a' * 50,
     ROOT_URLCONF='tests.urls',
     INSTALLED_APPS=(
         'django.contrib.auth',
@@ -31,7 +31,7 @@ DEFAULT_SETTINGS = dict(
             'loaders': ['tests.DummyTemplateLoader']
         },
     }],
-    ZENDESK_BASE_URL='https://test.notzendesk.com',
+    ZENDESK_BASE_URL='https://zendesk.local/',
     ZENDESK_API_USERNAME='zendesk_user',
     ZENDESK_API_TOKEN='api_token',
     ZENDESK_REQUESTER_ID=111111,

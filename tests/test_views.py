@@ -66,7 +66,7 @@ class SubmitFeedbackTestCase(SimpleTestCase):
 
         mock_requests.post.side_effect = AssertCalledZendeskPost(
             self,
-            'https://test.notzendesk.com/api/v2/tickets.json',
+            'https://zendesk.local/api/v2/tickets.json',
             {'ticket': {'subject': 'Website Ticket', 'tags': ['test'],
                         'group_id': 222222,
                         'comment': {'body': 'The internet is broken.'},
@@ -96,7 +96,7 @@ class SubmitFeedbackTestCase(SimpleTestCase):
 
         mock_requests.post.side_effect = AssertCalledZendeskPost(
             self,
-            'https://test.notzendesk.com/api/v2/tickets.json',
+            'https://zendesk.local/api/v2/tickets.json',
             {'ticket': {'subject': 'Website Ticket', 'tags': ['test'],
                         'group_id': 222222,
                         'comment': {'body': 'The internet is broken.'},
@@ -122,7 +122,7 @@ class SubmitFeedbackTestCase(SimpleTestCase):
 
         mock_requests.post.side_effect = AssertCalledZendeskPost(
             self,
-            'https://test.notzendesk.com/api/v2/tickets.json',
+            'https://zendesk.local/api/v2/tickets.json',
             {'ticket': {'subject': 'Test Feedback with email address',
                         'tags': ['feedback', 'test', 'with-email'],
                         'group_id': 222222,
@@ -177,7 +177,7 @@ class SubmitFeedbackTestCase(SimpleTestCase):
 
         mock_requests.post.side_effect = AssertCalledZendeskPost(
             self,
-            'https://test.notzendesk.com/api/v2/tickets.json',
+            'https://zendesk.local/api/v2/tickets.json',
             {'ticket': {'subject': 'Website Ticket', 'tags': ['test'],
                         'group_id': 222222,
                         'comment': {'body': 'The internet is broken.'},
@@ -206,7 +206,7 @@ class SubmitFeedbackTestCase(SimpleTestCase):
 
         mock_requests.post.side_effect = AssertCalledZendeskPost(
             self,
-            'https://test.notzendesk.com/api/v2/tickets.json',
+            'https://zendesk.local/api/v2/tickets.json',
             {'ticket': {'subject': 'Website Ticket', 'tags': ['test'],
                         'group_id': 222222,
                         'comment': {'body': 'The internet is broken.'},

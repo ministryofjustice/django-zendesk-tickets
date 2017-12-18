@@ -57,8 +57,10 @@ Please report bugs and open pull requests on `GitHub`_.
 
 Use ``python setup.py test`` to run all tests.
 
+If any localisable strings change, run ``python setup.py makemessages compilemessages``.
+
 Distribute a new version to `PyPi`_ by updating the ``VERSION`` tuple in ``zendesk_tickets`` and
-run ``python setup.py sdist bdist_wheel upload``.
+run ``python setup.py compilemessages sdist bdist_wheel upload``.
 
 
 Copyright

@@ -1,6 +1,7 @@
 from django import forms
 from django.conf import settings
 from django.template import loader
+from django.utils.encoding import force_text
 from django.utils.translation import ugettext_lazy as _
 
 from . import client
@@ -25,7 +26,13 @@ class BaseTicketForm(forms.Form):
 
     def submit_ticket(self, request, subject, tags, ticket_template_name,
                       requester_email=None, extra_context={}):
+        subject = force_text(subject)
+        tags = list(map(force_text, tags))
         context = dict(self.cleaned_data, **extra_context)
+        context = {
+            key: force_text(value, strings_only=True)
+            for key, value in context.items()
+        }
         body = loader.get_template(ticket_template_name).render(context).strip()
 
         client.create_ticket(
@@ -49,7 +56,7 @@ class TicketForm(BaseTicketForm):
     def submit_ticket(self, request, subject, tags, ticket_template_name,
                       requester_email=None, extra_context={}):
         extra_context = dict(extra_context, **{
-            'username': getattr(request.user, 'username', None) or 'Anonymous',
+            'username': getattr(request.user, 'username', None) or _('Anonymous'),
             'user_agent': request.META.get('HTTP_USER_AGENT')
         })
 

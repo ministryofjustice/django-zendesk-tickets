@@ -12,6 +12,8 @@ tests_require = ['flake8']
 if sys.version_info < (3, 3):
     tests_require.append('mock>=1.3')
 
+setup_extensions = importlib.import_module('zendesk_tickets.setup_extensions')
+
 setup(
     name='django-zendesk-tickets',
     version=__version__,
@@ -32,6 +34,7 @@ setup(
         'Programming Language :: Python :: 3.5',
         'Programming Language :: Python :: 3.6',
     ],
+    cmdclass=setup_extensions.command_classes,
     install_requires=['Django>=1.10,<2.1', 'requests', 'six'],
     tests_require=tests_require,
     test_suite='runtests.runtests',

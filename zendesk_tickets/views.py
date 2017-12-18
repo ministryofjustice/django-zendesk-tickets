@@ -23,7 +23,7 @@ def ticket(request,
            success_redirect_url='/',
            ticket_template_name='zendesk_tickets/ticket.txt',
            form_class=TicketForm,
-           subject='Website Ticket',
+           subject=_('Website Ticket'),
            tags=[],
            extra_context=None):
     if request.method == 'POST':

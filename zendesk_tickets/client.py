@@ -2,9 +2,11 @@ import json
 
 from django.conf import settings
 import requests
+from six.moves.urllib.parse import urljoin
 
 
-TICKETS_URL = settings.ZENDESK_BASE_URL + '/api/v2/tickets.json'
+def get_ticket_endpoint():
+    return urljoin(settings.ZENDESK_BASE_URL, '/api/v2/tickets.json')
 
 
 def zendesk_auth():
@@ -37,7 +39,7 @@ def create_ticket(subject, tags, ticket_body, requester_email=None,
         payload['ticket']['requester_id'] = settings.ZENDESK_REQUESTER_ID
 
     requests.post(
-        TICKETS_URL,
+        get_ticket_endpoint(),
         data=json.dumps(payload),
         auth=zendesk_auth(),
         headers={'content-type': 'application/json'}).raise_for_status()

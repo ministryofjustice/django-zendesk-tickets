@@ -1,63 +1,90 @@
-from django.forms.forms import NON_FIELD_ERRORS
-from django.http import HttpResponseRedirect
-from django.shortcuts import render
+import warnings
+
+from django.core.exceptions import NON_FIELD_ERRORS
 from django.utils.http import is_safe_url
 from django.utils.translation import ugettext as _
+from django.views.generic import FormView, TemplateView
 from requests.exceptions import HTTPError
 from six.moves.urllib.parse import urlparse
 
 from .forms import TicketForm
 
-RETURN_URL_FIELD = 'next'
+RETURN_URL_PARAM = 'next'
 
 
 def get_safe_return_to(request, return_to):
-    # Ensure the user-originating redirection url is safe.
+    """
+    Ensure the user-originating redirection url is safe, i.e. within same scheme://domain:port
+    """
     if return_to and is_safe_url(url=return_to, host=request.get_host()) and return_to != request.build_absolute_uri():
         return return_to
-    return None
+
+
+class TicketView(FormView):
+    form_class = TicketForm
+    ticket_subject = _('Website Ticket')
+    ticket_template_name = 'zendesk_tickets/ticket.txt'
+    ticket_tags = []
+
+    def __init__(self, *args, **kwargs):
+        super(TicketView, self).__init__(*args, **kwargs)
+        self.return_to = None
+
+    def get(self, request, *args, **kwargs):
+        self.return_to = get_safe_return_to(self.request, self.request.META.get('HTTP_REFERER'))
+        return super(TicketView, self).get(request, *args, **kwargs)
+
+    def get_context_data(self, **kwargs):
+        kwargs['return_to'] = self.return_to
+        return super(TicketView, self).get_context_data(**kwargs)
+
+    def get_initial(self):
+        return dict(referer=self.return_to, **super(TicketView, self).get_initial())
+
+    def form_valid(self, form):
+        self.return_to = get_safe_return_to(self.request, form.cleaned_data.get('referer'))
+        try:
+            form.submit_ticket(self.request, self.ticket_subject, self.ticket_tags, self.ticket_template_name)
+        except HTTPError:
+            form.add_error(NON_FIELD_ERRORS, _('Unexpected error.'))
+            return self.form_invalid(form)
+        return super(TicketView, self).form_valid(form)
+
+    def get_success_url(self):
+        success_url = super(TicketView, self).get_success_url()
+        if self.return_to:
+            success_url = '%s?%s=%s' % (success_url, RETURN_URL_PARAM, urlparse(self.return_to).path)
+        return success_url
+
+
+class TicketSentView(TemplateView):
+    def get_context_data(self, **kwargs):
+        kwargs['return_to'] = get_safe_return_to(self.request, self.request.GET.get(RETURN_URL_PARAM))
+        return super(TicketSentView, self).get_context_data(**kwargs)
 
 
 def ticket(request,
-           template_name=None,
+           template_name=TicketView.template_name,
            success_redirect_url='/',
-           ticket_template_name='zendesk_tickets/ticket.txt',
-           form_class=TicketForm,
-           subject='Website Ticket',
-           tags=[],
+           ticket_template_name=TicketView.ticket_template_name,
+           form_class=TicketView.form_class,
+           subject=TicketView.ticket_subject,
+           tags=TicketView.ticket_tags,
            extra_context=None):
-    if request.method == 'POST':
-        form = form_class(request.POST)
-        if form.is_valid():
-            return_to = get_safe_return_to(request, form.cleaned_data.get('referer'))
-            try:
-                form.submit_ticket(request, subject, tags, ticket_template_name)
-                if return_to:
-                    return_to = urlparse(return_to).path
-                    success_redirect_url = (
-                        success_redirect_url +
-                        ('?%s=%s' % (RETURN_URL_FIELD, return_to))
-                    )
-                return HttpResponseRedirect(success_redirect_url)
-            except HTTPError:
-                form.add_error(NON_FIELD_ERRORS, _('Unexpected error.'))
-        else:
-            return_to = get_safe_return_to(request, request.POST.get('referer'))
-    else:
-        return_to = get_safe_return_to(request, request.META.get('HTTP_REFERER'))
-        form = form_class(
-            initial={'referer': return_to}
-        )
-
-    context = {'form': form, 'return_to': return_to}
-    if extra_context:
-        context.update(extra_context)
-    return render(request, template_name, context=context)
+    warnings.warn('ticket() view is superseded by class-based TicketView',
+                  DeprecationWarning, stacklevel=2)
+    init_kwargs = {
+        'form_class': form_class,
+        'template_name': template_name,
+        'success_url': success_redirect_url,
+        'ticket_template_name': ticket_template_name,
+        'ticket_subject': subject,
+        'ticket_tags': tags,
+    }
+    return TicketView.as_view(**init_kwargs)(request, **(extra_context or {}))
 
 
 def success(request, template_name=None, extra_context=None):
-    return_to = get_safe_return_to(request, request.GET.get(RETURN_URL_FIELD))
-    context = {'return_to': return_to}
-    if extra_context:
-        context.update(extra_context)
-    return render(request, template_name, context=context)
+    warnings.warn('success() view is superseded by class-based TicketSentView',
+                  DeprecationWarning, stacklevel=2)
+    return TicketSentView.as_view(template_name=template_name)(request, **(extra_context or {}))

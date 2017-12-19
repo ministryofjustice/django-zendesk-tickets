@@ -14,7 +14,6 @@ class DummyTemplateLoader(Loader):
         try:
             return super(DummyTemplateLoader, self).get_template(
                 template_name,
-                template_dirs=template_dirs,
                 skip=skip
             )
         except TemplateDoesNotExist:

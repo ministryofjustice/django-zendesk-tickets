@@ -1,3 +1,5 @@
 include LICENSE
 include README.rst
-recursive-include zendesk_tickets/templates *
+recursive-include zendesk_tickets/locale *.mo
+recursive-include zendesk_tickets/locale *.po
+recursive-include zendesk_tickets/templates *.txt

@@ -4,16 +4,18 @@ import sys
 
 from setuptools import find_packages, setup
 
-# allow setup.py to be run from any path
-os.chdir(os.path.normpath(os.path.join(os.path.abspath(__file__), os.pardir)))
-
 __version__ = importlib.import_module('zendesk_tickets').__version__
-with open('README.rst') as readme:
+with open(os.path.join(os.path.dirname(__file__), 'README.rst')) as readme:
     README = readme.read()
 
-tests_require = ['flake8>=2.5,<3.0']
-if sys.version_info < (3, 3):
-    tests_require.append('mock>=1.3')
+tests_require = ['flake8>=3.5,<4']
+if sys.version_info < (3, 4):
+    django_version = '>=1.10,<2'
+    tests_require.append('mock>=2,<3')
+else:
+    django_version = '>=1.10,<2.1'
+
+setup_extensions = importlib.import_module('zendesk_tickets.setup_extensions')
 
 setup(
     name='django-zendesk-tickets',
@@ -32,8 +34,11 @@ setup(
         'Operating System :: OS Independent',
         'Programming Language :: Python :: 2.7',
         'Programming Language :: Python :: 3.4',
+        'Programming Language :: Python :: 3.5',
+        'Programming Language :: Python :: 3.6',
     ],
-    install_requires=['Django>=1.9,<1.10', 'requests', 'six'],
+    cmdclass=setup_extensions.command_classes,
+    install_requires=['Django%s' % django_version, 'requests', 'six'],
     tests_require=tests_require,
     test_suite='runtests.runtests',
 )

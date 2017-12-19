@@ -20,18 +20,15 @@ Add an entry to your urls.py
 
 .. code-block:: python
 
-    from zendesk_tickets import forms
     from zendesk_tickets import views
 
-    url(r'^submit_ticket/$', views.ticket, {
-            'template_name': 'xxx/submit_ticket_page.html',
-            'success_redirect_url': '/',
-            'ticket_template_name': 'zendesk_tickets/ticket.txt',
-            'form_class': forms.TicketForm,
-            'subject': 'Website Ticket',
-            'tags': [],
-            'extra_context': {},
-        }, name='submit_ticket'),
+    url(r'^submit_ticket/$', views.TicketView.as_view(
+        success_url='/',
+        template_name='app_name/submit_ticket_page.html',
+        ticket_subject='Website Feedback',
+        ticket_tags=['website', 'feedback']
+        ticket_template_name='app_name/feedback_ticket.txt',
+    ), name='submit_ticket'),
 
 If you wish to include additional fields, subclass ``BaseTicketForm`` and
 add them. If you wish to include them in the body of the ticket, create a new

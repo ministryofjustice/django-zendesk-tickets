@@ -4,8 +4,9 @@ import sys
 
 from setuptools import setup
 
-package_info = importlib.import_module('zendesk_tickets')
-with open(os.path.join(os.path.dirname(__file__), 'README.rst')) as readme:
+root_path = os.path.abspath(os.path.dirname(__file__))
+
+with open(os.path.join(root_path, 'README.rst')) as readme:
     README = readme.read()
 
 tests_require = ['flake8>=3.5,<4']
@@ -13,8 +14,9 @@ if sys.version_info < (3, 4):
     django_version = '>=1.10,<2'
     tests_require.append('mock>=2,<3')
 else:
-    django_version = '>=1.10,<2.1'
+    django_version = '>=1.10'
 
+package_info = importlib.import_module('zendesk_tickets')
 setup_extensions = importlib.import_module('zendesk_tickets.setup_extensions')
 
 setup(
@@ -27,6 +29,7 @@ setup(
     license='MIT',
     description='Django views and forms that submit tickets to Zendesk',
     long_description=README,
+    keywords='zendesk django tickets',
     classifiers=[
         'Development Status :: 4 - Beta',
         'Framework :: Django',

@@ -9,7 +9,7 @@ root_path = os.path.abspath(os.path.dirname(__file__))
 with open(os.path.join(root_path, 'README.rst')) as readme:
     README = readme.read()
 
-tests_require = ['flake8>=3.5,<4']
+tests_require = ['flake8']
 if sys.version_info < (3, 4):
     django_version = '>=1.10,<2'
     tests_require.append('mock>=2,<3')

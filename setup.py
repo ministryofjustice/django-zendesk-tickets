@@ -9,15 +9,18 @@ root_path = os.path.abspath(os.path.dirname(__file__))
 with open(os.path.join(root_path, 'README.rst')) as readme:
     README = readme.read()
 
+install_requires = ['requests', 'six']
 tests_require = ['flake8']
 if sys.version_info < (3, 4):
     django_version = '>=1.10,<2'
-    tests_require.append('mock>=2,<3')
+    tests_require.append('mock')
 else:
     django_version = '>=1.10'
+install_requires.append('Django%s' % django_version)
 
 package_info = importlib.import_module('zendesk_tickets')
 setup_extensions = importlib.import_module('zendesk_tickets.setup_extensions')
+command_classes = setup_extensions.command_classes.copy()
 
 setup(
     name='django-zendesk-tickets',
@@ -44,8 +47,8 @@ setup(
         'Programming Language :: Python :: 3.5',
         'Programming Language :: Python :: 3.6',
     ],
-    cmdclass=setup_extensions.command_classes,
-    install_requires=['Django%s' % django_version, 'requests', 'six'],
+    cmdclass=command_classes,
+    install_requires=install_requires,
     tests_require=tests_require,
-    test_suite='runtests.runtests',
+    test_suite='tests.run',
 )

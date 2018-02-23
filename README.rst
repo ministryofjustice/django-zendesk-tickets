@@ -50,6 +50,9 @@ template or specifying custom field ids in settings.
 Development
 -----------
 
+.. image:: https://travis-ci.org/ministryofjustice/django-zendesk-tickets.svg?branch=master
+    :target: https://travis-ci.org/ministryofjustice/django-zendesk-tickets
+
 Please report bugs and open pull requests on `GitHub`_.
 
 Use ``python setup.py test`` to run all tests.

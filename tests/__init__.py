@@ -1,3 +1,4 @@
+import os
 import sys
 
 import django
@@ -21,12 +22,8 @@ test_settings = dict(
     SESSION_ENGINE='django.contrib.sessions.backends.signed_cookies',
     TEMPLATES=[{
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
-        'APP_DIRS': False,
-        'OPTIONS': {
-            'context_processors': [],
-            'loaders': ['tests.utils.DummyTemplateLoader'],
-        },
+        'DIRS': [os.path.join(os.path.dirname(__file__), 'templates')],
+        'APP_DIRS': True,
     }],
     ZENDESK_BASE_URL='https://zendesk.local/',
     ZENDESK_API_USERNAME='zendesk_user',

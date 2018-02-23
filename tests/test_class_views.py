@@ -11,7 +11,7 @@ from django.urls import resolve, reverse
 @mock.patch('zendesk_tickets.client.requests')
 class TicketViewTestCase(SimpleTestCase):
     def assertPostedToZendesk(self, mock_requests, ticket_data):  # noqa
-        mock_requests.post.assert_called_once()
+        self.assertEqual(mock_requests.post.call_count, 1)
         args, kwargs = mock_requests.post.call_args
         kwargs['data'] = json.loads(kwargs['data'])
         kwargs['data']['ticket']['custom_fields'] = sorted(kwargs['data']['ticket']['custom_fields'],

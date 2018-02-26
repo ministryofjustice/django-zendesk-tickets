@@ -16,7 +16,8 @@ if sys.version_info < (3, 4):
     tests_require.append('mock')
 else:
     django_version = '>=1.10'
-install_requires.append('Django%s' % django_version)
+setup_requires = ['Django%s' % django_version]
+install_requires += setup_requires
 
 package_info = importlib.import_module('zendesk_tickets')
 setup_extensions = importlib.import_module('zendesk_tickets.setup_extensions')
@@ -48,6 +49,7 @@ setup(
         'Programming Language :: Python :: 3.6',
     ],
     cmdclass=command_classes,
+    setup_requires=setup_requires,
     install_requires=install_requires,
     tests_require=tests_require,
     test_suite='tests.run',

@@ -1,8 +1,8 @@
 import json
+from urllib.parse import urljoin
 
 from django.conf import settings
 import requests
-from six.moves.urllib.parse import urljoin
 
 
 def get_ticket_endpoint():

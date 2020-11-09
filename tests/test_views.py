@@ -1,8 +1,5 @@
 import json
-try:
-    from unittest import mock
-except ImportError:
-    import mock
+from unittest import mock
 
 from django.contrib.auth.models import AnonymousUser
 from django.test import SimpleTestCase, RequestFactory, override_settings

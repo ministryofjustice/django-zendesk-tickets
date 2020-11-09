@@ -1,8 +1,5 @@
 import json
-try:
-    from unittest import mock
-except ImportError:
-    import mock
+from unittest import mock
 
 from django.test import RequestFactory, SimpleTestCase, override_settings
 from django.urls import resolve, reverse

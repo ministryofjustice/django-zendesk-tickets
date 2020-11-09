@@ -3,7 +3,7 @@ from urllib.parse import urlparse
 
 from django.core.exceptions import NON_FIELD_ERRORS
 from django.utils.http import is_safe_url
-from django.utils.translation import ugettext as _
+from django.utils.translation import gettext as _
 from django.views.generic import FormView, TemplateView
 from requests.exceptions import HTTPError
 
@@ -16,7 +16,11 @@ def get_safe_return_to(request, return_to):
     """
     Ensure the user-originating redirection url is safe, i.e. within same scheme://domain:port
     """
-    if return_to and is_safe_url(url=return_to, host=request.get_host()) and return_to != request.build_absolute_uri():
+    if (
+        return_to
+        and is_safe_url(url=return_to, allowed_hosts=request.get_host())
+        and return_to != request.build_absolute_uri()
+    ):
         return return_to
 
 

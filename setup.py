@@ -9,9 +9,8 @@ with open(os.path.join(root_path, 'README.rst')) as readme:
     README = readme.read()
 
 install_requires = ['requests']
+setup_requires = ['Django>=2.2,<4']
 tests_require = ['flake8']
-django_version = '>=1.10'
-setup_requires = ['Django%s' % django_version]
 install_requires += setup_requires
 
 package_info = importlib.import_module('zendesk_tickets')
@@ -22,6 +21,7 @@ setup(
     name='django-zendesk-tickets',
     version=package_info.__version__,
     author=package_info.__author__,
+    author_email='dev@digital.justice.gov.uk',
     url='https://github.com/ministryofjustice/django-zendesk-tickets',
     packages=['zendesk_tickets'],
     include_package_data=True,

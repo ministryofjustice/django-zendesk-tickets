@@ -60,13 +60,13 @@ Use ``python setup.py test`` to run all tests.
 If any localisable strings change, run ``python setup.py makemessages compilemessages``.
 
 Distribute a new version to `PyPi`_ by updating the ``VERSION`` tuple in ``zendesk_tickets`` and
-run ``python setup.py compilemessages sdist bdist_wheel upload``.
+creating a release in GitHub (this triggers a GitHub Actions workflow to automatically upload it).
 
 
 Copyright
 ---------
 
-Copyright (C) 2018 HM Government (Ministry of Justice Digital Services).
+Copyright (C) 2020 HM Government (Ministry of Justice Digital Services).
 See LICENSE.txt for further details.
 
 .. _Zendesk: https://developer.zendesk.com/rest_api

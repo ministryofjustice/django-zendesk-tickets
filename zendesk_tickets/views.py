@@ -1,11 +1,11 @@
 import warnings
+from urllib.parse import urlparse
 
 from django.core.exceptions import NON_FIELD_ERRORS
 from django.utils.http import is_safe_url
 from django.utils.translation import ugettext as _
 from django.views.generic import FormView, TemplateView
 from requests.exceptions import HTTPError
-from six.moves.urllib.parse import urlparse
 
 from .forms import TicketForm
 

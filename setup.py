@@ -1,6 +1,5 @@
 import importlib
 import os
-import sys
 
 from setuptools import setup
 
@@ -9,13 +8,9 @@ root_path = os.path.abspath(os.path.dirname(__file__))
 with open(os.path.join(root_path, 'README.rst')) as readme:
     README = readme.read()
 
-install_requires = ['requests', 'six']
+install_requires = ['requests']
 tests_require = ['flake8']
-if sys.version_info < (3, 4):
-    django_version = '>=1.10,<2'
-    tests_require.append('mock')
-else:
-    django_version = '>=1.10'
+django_version = '>=1.10'
 setup_requires = ['Django%s' % django_version]
 install_requires += setup_requires
 
@@ -41,12 +36,12 @@ setup(
         'License :: OSI Approved :: MIT License',
         'Natural Language :: English',
         'Operating System :: OS Independent',
-        'Programming Language :: Python :: 2',
-        'Programming Language :: Python :: 2.7',
         'Programming Language :: Python :: 3',
         'Programming Language :: Python :: 3.4',
         'Programming Language :: Python :: 3.5',
         'Programming Language :: Python :: 3.6',
+        'Programming Language :: Python :: 3.7',
+        'Programming Language :: Python :: 3.8',
     ],
     cmdclass=command_classes,
     setup_requires=setup_requires,

@@ -60,8 +60,8 @@ Use ``python setup.py test`` to run all tests.
 If any localisable strings change, run ``python setup.py makemessages compilemessages``.
 
 Distribute a new version to `PyPi`_ by updating the ``VERSION`` tuple in ``zendesk_tickets`` and
-creating a release in GitHub (this triggers a GitHub Actions workflow to automatically upload it).
-
+publishing a release in GitHub (this triggers a GitHub Actions workflow to automatically upload it).
+Alternatively, run ``python setup.py compilemessages sdist bdist_wheel upload`` locally.
 
 Copyright
 ---------

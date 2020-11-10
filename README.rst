@@ -50,8 +50,8 @@ template or specifying custom field ids in settings.
 Development
 -----------
 
-.. image:: https://travis-ci.org/ministryofjustice/django-zendesk-tickets.svg?branch=master
-    :target: https://travis-ci.org/ministryofjustice/django-zendesk-tickets
+.. image:: https://github.com/ministryofjustice/django-zendesk-tickets/workflows/Run%20tests/badge.svg?branch=master
+    :target: https://github.com/ministryofjustice/django-zendesk-tickets/actions
 
 Please report bugs and open pull requests on `GitHub`_.
 

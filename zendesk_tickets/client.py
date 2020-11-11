@@ -16,8 +16,7 @@ def zendesk_auth():
     )
 
 
-def create_ticket(subject, tags, ticket_body, requester_email=None,
-                  custom_fields=[]):
+def create_ticket(subject, tags, ticket_body, requester_email=None, custom_fields=None):
     """ Create a new Zendesk ticket """
 
     payload = {'ticket': {
@@ -27,7 +26,7 @@ def create_ticket(subject, tags, ticket_body, requester_email=None,
         },
         'group_id': settings.ZENDESK_GROUP_ID,
         'tags': tags,
-        'custom_fields': custom_fields
+        'custom_fields': list(custom_fields or ()),
     }}
 
     if requester_email:

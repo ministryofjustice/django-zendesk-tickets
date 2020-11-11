@@ -15,7 +15,9 @@ with open(os.path.join(root_path, 'README.rst')) as readme:
     README = readme.read()
 
 install_requires = ['Django>=2.2,<4', 'requests']
-tests_require = ['flake8']
+tests_require = [
+    'flake8', 'flake8-bugbear', 'flake8-quotes', 'flake8-blind-except', 'flake8-debugger', 'pep8-naming',
+]
 
 package_info = importlib.import_module('zendesk_tickets')
 setup_extensions = importlib.import_module('zendesk_tickets.setup_extensions')

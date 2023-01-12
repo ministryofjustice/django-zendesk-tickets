@@ -20,7 +20,7 @@ class BaseTicketForm(forms.Form):
             if value is not None:
                 fields.append({
                     'id': settings.ZENDESK_CUSTOM_FIELDS[custom_field],
-                    'value': value
+                    'value': value,
                 })
         return fields
 
@@ -57,7 +57,7 @@ class TicketForm(BaseTicketForm):
         extra_context = extra_context or {}
         extra_context = dict(extra_context, **{
             'username': getattr(request.user, 'username', None) or _('Anonymous'),
-            'user_agent': request.META.get('HTTP_USER_AGENT')
+            'user_agent': request.META.get('HTTP_USER_AGENT'),
         })
         if not requester_email:
             requester_email = getattr(request.user, 'email', None)

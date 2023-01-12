@@ -9,8 +9,7 @@ from zendesk_tickets.views import ticket
 
 
 class AssertCalledZendeskPost(object):
-    def __init__(self, test_case,
-                 expected_url, expected_data, expected_auth, expected_headers):
+    def __init__(self, test_case, expected_url, expected_data, expected_auth, expected_headers):
         self.called = False
         self.test_case = test_case
         self.expected_url = expected_url
@@ -47,8 +46,7 @@ class SubmitFeedbackTestCase(SimpleTestCase):
         self.factory = RequestFactory()
 
     def test_referer_is_set_from_header(self, _):
-        response = self.client.get(reverse('submit_ticket'),
-                                   HTTP_REFERER='/other/page')
+        response = self.client.get(reverse('submit_ticket'), HTTP_REFERER='/other/page')
         self.assertEqual('/other/page', response.context['form'].initial['referer'])
 
     def test_ticket_success(self, mock_requests):
@@ -82,7 +80,7 @@ class SubmitFeedbackTestCase(SimpleTestCase):
     def test_ticket_success_with_user(self, mock_requests):
         form_data = {
             'referer': '/other/page',
-            'ticket_content': 'The internet is broken.'
+            'ticket_content': 'The internet is broken.',
         }
 
         request = self.factory.post(reverse('submit_ticket'), data=form_data)

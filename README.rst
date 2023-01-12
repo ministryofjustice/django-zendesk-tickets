@@ -20,14 +20,14 @@ Add an entry to your urls.py
 
 .. code-block:: python
 
-    from zendesk_tickets import views
+    from zendesk_tickets.views import TicketView
 
-    url(r'^submit_ticket/$', views.TicketView.as_view(
+    path(r'submit-ticket/$', TicketView.as_view(
         success_url='/',
-        template_name='app_name/submit_ticket_page.html',
+        template_name='app_name/submit-ticket-page.html',
         ticket_subject='Website Feedback',
         ticket_tags=['website', 'feedback']
-        ticket_template_name='app_name/feedback_ticket.txt',
+        ticket_template_name='app_name/feedback-ticket.txt',
     ), name='submit_ticket'),
 
 If you wish to include additional fields, subclass ``BaseTicketForm`` and
@@ -50,8 +50,11 @@ template or specifying custom field ids in settings.
 Development
 -----------
 
-.. image:: https://github.com/ministryofjustice/django-zendesk-tickets/workflows/Run%20tests/badge.svg?branch=main
-    :target: https://github.com/ministryofjustice/django-zendesk-tickets/actions
+.. image:: https://github.com/ministryofjustice/django-zendesk-tickets/actions/workflows/test.yml/badge.svg?branch=main
+    :target: https://github.com/ministryofjustice/django-zendesk-tickets/actions/workflows/test.yml
+
+.. image:: https://github.com/ministryofjustice/django-zendesk-tickets/actions/workflows/lint.yml/badge.svg?branch=main
+    :target: https://github.com/ministryofjustice/django-zendesk-tickets/actions/workflows/lint.yml
 
 Please report bugs and open pull requests on `GitHub`_.
 
@@ -66,7 +69,7 @@ Alternatively, run ``python setup.py compilemessages sdist bdist_wheel upload`` 
 Copyright
 ---------
 
-Copyright (C) 2022 HM Government (Ministry of Justice Digital & Technology).
+Copyright (C) 2023 HM Government (Ministry of Justice Digital & Technology).
 See LICENSE.txt for further details.
 
 .. _Zendesk: https://developer.zendesk.com/rest_api

@@ -6,12 +6,25 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        python-version:
-          - "3.7"
-          - "3.8"
-          - "3.9"
-          - "3.10"
-          - "3.11"
+        # tests supported django versions against python versions django officially support plus one higher
+        include:
+          - { "django-version": "2.2", "python-version": "3.8" }
+          - { "django-version": "2.2", "python-version": "3.9" }
+          - { "django-version": "3.0", "python-version": "3.8" }
+          - { "django-version": "3.0", "python-version": "3.9" }
+          - { "django-version": "3.1", "python-version": "3.8" }
+          - { "django-version": "3.1", "python-version": "3.9" }
+          - { "django-version": "3.2", "python-version": "3.8" }
+          - { "django-version": "3.2", "python-version": "3.9" }
+          - { "django-version": "3.2", "python-version": "3.10" }
+          - { "django-version": "4.0", "python-version": "3.8" }
+          - { "django-version": "4.0", "python-version": "3.9" }
+          - { "django-version": "4.0", "python-version": "3.10" }
+          - { "django-version": "4.0", "python-version": "3.11" }
+          - { "django-version": "4.1", "python-version": "3.8" }
+          - { "django-version": "4.1", "python-version": "3.9" }
+          - { "django-version": "4.1", "python-version": "3.10" }
+          - { "django-version": "4.1", "python-version": "3.11" }
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
@@ -23,5 +36,7 @@ jobs:
         run: sudo apt-get install gettext
       - name: Update setuptools pip and wheel
         run: pip install -U setuptools pip wheel
+      - name: Install django
+        run: pip install django~=${{ matrix.django-version }}.0
       - name: Run tests
         run: python setup.py compilemessages test

@@ -1,7 +1,10 @@
 from django import forms
 from django.conf import settings
 from django.template import loader
-from django.utils.encoding import force_text
+try:
+    from django.utils.encoding import force_str
+except ImportError:
+    from django.utils.encoding import force_text as force_str
 from django.utils.translation import gettext_lazy as _
 
 from . import client
@@ -26,11 +29,11 @@ class BaseTicketForm(forms.Form):
 
     def submit_ticket(self, request, subject, tags, ticket_template_name, requester_email=None, extra_context=None):
         extra_context = extra_context or {}
-        subject = force_text(subject)
-        tags = list(map(force_text, tags))
+        subject = force_str(subject)
+        tags = list(map(force_str, tags))
         context = dict(self.cleaned_data, **extra_context)
         context = {
-            key: force_text(value, strings_only=True)
+            key: force_str(value, strings_only=True)
             for key, value in context.items()
         }
         body = loader.get_template(ticket_template_name).render(context).strip()

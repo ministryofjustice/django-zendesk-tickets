@@ -8,7 +8,7 @@ from django.urls import reverse
 from zendesk_tickets.views import ticket
 
 
-class AssertCalledZendeskPost(object):
+class AssertCalledZendeskPost:
     def __init__(self, test_case, expected_url, expected_data, expected_auth, expected_headers):
         self.called = False
         self.test_case = test_case

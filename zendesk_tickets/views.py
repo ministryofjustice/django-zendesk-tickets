@@ -2,7 +2,10 @@ import warnings
 from urllib.parse import urlparse
 
 from django.core.exceptions import NON_FIELD_ERRORS
-from django.utils.http import is_safe_url
+try:
+    from django.utils.http import url_has_allowed_host_and_scheme
+except ImportError:
+    from django.utils.http import is_safe_url as url_has_allowed_host_and_scheme
 from django.utils.translation import gettext as _
 from django.views.generic import FormView, TemplateView
 from requests.exceptions import HTTPError
@@ -18,7 +21,7 @@ def get_safe_return_to(request, return_to):
     """
     if (
         return_to
-        and is_safe_url(url=return_to, allowed_hosts=request.get_host())
+        and url_has_allowed_host_and_scheme(url=return_to, allowed_hosts=request.get_host())
         and return_to != request.build_absolute_uri()
     ):
         return return_to

@@ -1,12 +1,17 @@
 import json
+import sys
 from unittest import mock
 
+import django
 from django.test import RequestFactory, SimpleTestCase, override_settings
 from django.urls import resolve, reverse
 
 
 @mock.patch('zendesk_tickets.client.requests')
 class TicketViewTestCase(SimpleTestCase):
+    def test_print_django_version(self, mock_requests):
+        print(f'Testing on django {django.__version__}', file=sys.stderr)
+
     def assertPostedToZendesk(self, mock_requests, ticket_data):  # noqa
         self.assertEqual(mock_requests.post.call_count, 1)
         args, kwargs = mock_requests.post.call_args

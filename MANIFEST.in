@@ -3,3 +3,5 @@ include README.rst
 recursive-include zendesk_tickets/locale *.mo
 recursive-include zendesk_tickets/locale *.po
 recursive-include zendesk_tickets/templates *.txt
+global-exclude __pycache__
+global-exclude *.py[co]

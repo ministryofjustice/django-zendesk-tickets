@@ -54,6 +54,7 @@ setup(
         'Programming Language :: Python :: 3.11',
     ],
     cmdclass=command_classes,
+    python_requires='>=3.6',  # looser requirement than what's tested
     setup_requires=setup_requires,
     install_requires=install_requires,
     tests_require=tests_require,

@@ -62,9 +62,70 @@ Use ``python setup.py test`` to run all tests.
 
 If any localisable strings change, run ``python setup.py makemessages compilemessages``.
 
-Distribute a new version to `PyPi`_ by updating the ``VERSION`` tuple in ``zendesk_tickets`` and
+Distribute a new version to `PyPi`_ by updating the ``VERSION`` tuple in ``zendesk_tickets/__init__.py`` and
 publishing a release in GitHub (this triggers a GitHub Actions workflow to automatically upload it).
 Alternatively, run ``python setup.py compilemessages sdist bdist_wheel upload`` locally.
+Remember to update `History`_.
+
+
+History
+-------
+
+0.16
+    Drop support for python 3.6 and 3.7.
+    Add support for python 3.11.
+    Add experimental support for Django versions 4.0 & 4.1.
+    Improve testing and linting.
+
+0.15
+    Add support for python 3.9 and 3.10.
+    Improve testing and linting.
+
+0.14
+    Drop support for python 3.5.
+    Improve linting.
+
+0.13
+    Drop python 2 support (now compatible with 3.5 - 3.8).
+    Support Django 2.2 - 3.2 (both LTS).
+
+0.12
+    Improve testing and linting.
+
+0.11
+    Support Django 1.10 - 2.0.
+    Add class-based Django views.
+    Add internationalisation support.
+
+0.10
+    Fix display of tickets in Zendesk.
+
+0.9
+    Don’t allow self-referential return-to URL.
+
+0.8
+    Accept extra template context in views.
+
+0.7
+    Use email address of logged-in user when available.
+
+0.6
+    Collect email address of form submitter, optionally.
+
+0.5
+    Fix bugs.
+
+0.4
+    Provide a safe "return back to where you came from" link.
+
+0.3
+    Add success view.
+
+0.2
+    Fix bugs.
+
+0.1
+    Original release.
 
 Copyright
 ---------

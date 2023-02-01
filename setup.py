@@ -14,10 +14,6 @@ root_path = os.path.abspath(os.path.dirname(__file__))
 with open(os.path.join(root_path, 'README.rst')) as readme:
     README = readme.read()
 
-setup_requires = ['Django>=2.2,<4.3']
-install_requires = setup_requires + ['requests']
-tests_require = []
-
 package_info = importlib.import_module('zendesk_tickets')
 setup_extensions = importlib.import_module('zendesk_tickets.setup_extensions')
 command_classes = setup_extensions.command_classes.copy()
@@ -55,8 +51,8 @@ setup(
     ],
     cmdclass=command_classes,
     python_requires='>=3.6',  # looser requirement than what's tested
-    setup_requires=setup_requires,
-    install_requires=install_requires,
-    tests_require=tests_require,
+    setup_requires=['Django>=2.2,<4.3'],
+    install_requires=['Django>=2.2,<4.3', 'requests'],
+    tests_require=[],
     test_suite='tests.run',
 )

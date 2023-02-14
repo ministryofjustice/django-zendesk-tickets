@@ -62,11 +62,10 @@ Use ``python setup.py test`` to run all tests.
 
 If any localisable strings change, run ``python setup.py makemessages compilemessages``.
 
-Distribute a new version to `PyPi`_ by updating the ``VERSION`` tuple in ``zendesk_tickets/__init__.py`` and
+Distribute a new version to `PyPI`_ by updating the ``VERSION`` tuple in ``zendesk_tickets/__init__.py`` and
 publishing a release in GitHub (this triggers a GitHub Actions workflow to automatically upload it).
 Alternatively, run ``python setup.py compilemessages sdist bdist_wheel upload`` locally.
 Remember to update `History`_.
-
 
 History
 -------
@@ -135,4 +134,4 @@ See LICENSE.txt for further details.
 
 .. _Zendesk: https://developer.zendesk.com/rest_api
 .. _GitHub: https://github.com/ministryofjustice/django-zendesk-tickets
-.. _PyPi: https://pypi.org/project/django-zendesk-tickets/
+.. _PyPI: https://pypi.org/project/django-zendesk-tickets/

@@ -24,7 +24,12 @@ setup(
     author=package_info.__author__,
     author_email='dev@digital.justice.gov.uk',
     url='https://github.com/ministryofjustice/django-zendesk-tickets',
-    packages=['zendesk_tickets'],
+    packages=[
+        'zendesk_tickets',
+        'zendesk_tickets.locale.cy.LC_MESSAGES',
+        'zendesk_tickets.locale.en_GB.LC_MESSAGES',
+        'zendesk_tickets.templates.zendesk_tickets',
+    ],
     include_package_data=True,
     license='MIT',
     description='Django views and forms that submit tickets to Zendesk',

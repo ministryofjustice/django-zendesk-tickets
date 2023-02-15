@@ -39,4 +39,4 @@ jobs:
       - name: Install django
         run: pip install django~=${{ matrix.django-version }}.0
       - name: Run tests
-        run: python setup.py compilemessages test
+        run: python -m tests

@@ -73,7 +73,7 @@ Updating and compiling translation files requires the gettext system package to 
 - updating the ``VERSION`` tuple in ``zendesk_tickets/__init__.py``
 - adding a note to the `History`_
 - publishing a release on GitHub which triggers an upload to PyPI;
-  alternatively, run ``python scripts/messages.py compile; python setup.py sdist bdist_wheel upload`` locally
+  alternatively, run ``python scripts/messages.py compile; python -m build; twine upload dist/*`` locally
 
 History
 -------

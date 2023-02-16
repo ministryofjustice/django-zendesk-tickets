@@ -40,5 +40,6 @@ jobs:
         run: pip install django~=${{ matrix.django-version }}.0
       - name: Run tests
         run: |
+          pip install --editable .
           python scripts/messages.py compile
           python -m tests

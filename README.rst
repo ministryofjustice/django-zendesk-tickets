@@ -58,17 +58,30 @@ Development
 
 Please report bugs and open pull requests on `GitHub`_.
 
-Use ``python setup.py test`` to run all tests.
+To work on changes to this library, it’s recommended to install it in editable mode into a virtual environment,
+i.e. ``pip install --editable .``
 
-If any localisable strings change, run ``python setup.py makemessages compilemessages``.
+Use ``python -m tests`` to run all tests locally.
+Alternatively, you can use ``tox`` if you have multiple python versions.
 
-Distribute a new version to `PyPI`_ by updating the ``VERSION`` tuple in ``zendesk_tickets/__init__.py`` and
-publishing a release in GitHub (this triggers a GitHub Actions workflow to automatically upload it).
-Alternatively, run ``python setup.py compilemessages sdist bdist_wheel upload`` locally.
-Remember to update `History`_.
+Update translation files using ``python scripts/messages.py update``, when any localisable strings change.
+Compile them using ``python scripts/messages.py compile``; this is *required* before testing and distribution.
+Updating and compiling translation files requires the gettext system package to be installed.
+
+[Only for GitHub team members] Distribute a new version to `PyPI`_ by:
+
+- updating the ``VERSION`` tuple in ``zendesk_tickets/__init__.py``
+- adding a note to the `History`_
+- publishing a release on GitHub which triggers an upload to PyPI;
+  alternatively, run ``python scripts/messages.py compile; python -m build; twine upload dist/*`` locally
 
 History
 -------
+
+Unreleased
+    Migrated test, build and release processes away from deprecated setuptools commands.
+    Translation files are updated and compiled through scripts which are not included in distribution.
+    No significant library changes.
 
 0.16
     Drop support for python 3.6 and 3.7.

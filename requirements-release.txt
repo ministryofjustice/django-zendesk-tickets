@@ -1,2 +1,3 @@
 build
+Django>=2.2,<4.3
 twine

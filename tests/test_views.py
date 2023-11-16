@@ -20,7 +20,7 @@ class AssertCalledZendeskPost:
     def __call__(self, url, data, auth, headers):
         self.called = True
         self.test_case.assertEqual(
-            url, self.expected_url
+            url, self.expected_url,
         )
         actual_data = json.loads(data)
         self.test_case.assertEqual(
@@ -29,13 +29,13 @@ class AssertCalledZendeskPost:
         )
         self.test_case.assertEqual(
             actual_data,
-            self.expected_data
+            self.expected_data,
         )
         self.test_case.assertEqual(
-            auth, self.expected_auth
+            auth, self.expected_auth,
         )
         self.test_case.assertEqual(
-            headers, self.expected_headers
+            headers, self.expected_headers,
         )
         return mock.MagicMock()
 
@@ -52,7 +52,7 @@ class SubmitFeedbackTestCase(SimpleTestCase):
     def test_ticket_success(self, mock_requests):
         form_data = {
             'referer': '/other/page',
-            'ticket_content': 'The internet is broken.'
+            'ticket_content': 'The internet is broken.',
         }
 
         request = self.factory.post(reverse('submit_ticket'), data=form_data)
@@ -139,7 +139,7 @@ class SubmitFeedbackTestCase(SimpleTestCase):
     def test_ticket_success_provides_next_to_redirect(self, _):
         form_data = {
             'referer': '/other/page',
-            'ticket_content': 'The internet is broken.'
+            'ticket_content': 'The internet is broken.',
         }
 
         request = self.factory.post(reverse('submit_ticket'), data=form_data)
@@ -162,7 +162,7 @@ class SubmitFeedbackTestCase(SimpleTestCase):
     def test_no_username_attr_handled(self, mock_requests):
         form_data = {
             'referer': '/other/page',
-            'ticket_content': 'The internet is broken.'
+            'ticket_content': 'The internet is broken.',
         }
 
         request = self.factory.post(reverse('submit_ticket'), data=form_data)
@@ -192,7 +192,7 @@ class SubmitFeedbackTestCase(SimpleTestCase):
     def test_no_custom_fields_included_if_not_defined(self, mock_requests):
         form_data = {
             'referer': '/other/page',
-            'ticket_content': 'The internet is broken.'
+            'ticket_content': 'The internet is broken.',
         }
 
         request = self.factory.post(reverse('submit_ticket'), data=form_data)

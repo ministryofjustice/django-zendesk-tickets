@@ -47,5 +47,10 @@ if __name__ == '__main__':
         django.setup()
 
     test_runner = DiscoverRunner(verbosity=2, failfast=False, interactive=False, top_level=root_path)
+    version_message = f'Testing on django {django.__version__}'
+    if hasattr(test_runner, 'log'):
+        test_runner.log(version_message)
+    else:
+        print(version_message, file=sys.stderr)
     failures = test_runner.run_tests(['tests'])
     sys.exit(failures)

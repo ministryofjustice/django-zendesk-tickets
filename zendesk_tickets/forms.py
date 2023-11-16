@@ -1,6 +1,7 @@
 from django import forms
 from django.conf import settings
 from django.template import loader
+
 try:
     from django.utils.encoding import force_str
 except ImportError:
@@ -14,6 +15,7 @@ class BaseTicketForm(forms.Form):
     """
     Base feedback form, only collects HTTP referrer
     """
+
     referer = forms.CharField(widget=forms.HiddenInput, required=False)
 
     def _populate_custom_fields(self, context):

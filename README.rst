@@ -78,7 +78,7 @@ Updating and compiling translation files requires the gettext system package to 
 History
 -------
 
-Unreleased
+0.17
     Migrated test, build and release processes away from deprecated setuptools commands.
     Translation files are updated and compiled through scripts which are not included in distribution.
     No significant library changes.

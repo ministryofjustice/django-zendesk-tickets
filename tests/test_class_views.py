@@ -35,7 +35,8 @@ class TicketViewTestCase(SimpleTestCase):
         response = self.client.post(reverse('ticket'), data={})
         form = response.context['form']
         self.assertFalse(form.is_valid())
-        self.assertFormError(response, 'form', 'ticket_content', errors=['This field is required.'])
+        field_errors = form.errors.get('ticket_content', [])
+        self.assertEqual(field_errors, ['This field is required.'])
         mock_requests.post.assert_not_called()
 
     def test_anonymous_submission_shows_sent_page(self, mock_requests):

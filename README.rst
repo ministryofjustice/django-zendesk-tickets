@@ -78,6 +78,9 @@ Updating and compiling translation files requires the gettext system package to 
 History
 -------
 
+0.19
+    Add experimental support for Django 5.2 & Python 3.13.
+
 0.18
     Add experimental support for Django versions 5.0 & 5.1.
 

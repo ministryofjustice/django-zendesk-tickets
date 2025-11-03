@@ -1,50 +1,33 @@
-name: Run tests
+name: Test and lint
 on: push
 jobs:
   test:
     name: Run tests
     runs-on: ubuntu-latest
     strategy:
+      fail-fast: false
       matrix:
-        # tests supported django versions against python versions django officially support plus one higher
+        # tests supported django versions against python versions django officially supports, plus latest pair
         include:
-          - { "django-version": "2.2", "python-version": "3.8" }
-          - { "django-version": "2.2", "python-version": "3.9" }
-          - { "django-version": "3.0", "python-version": "3.8" }
-          - { "django-version": "3.0", "python-version": "3.9" }
-          - { "django-version": "3.1", "python-version": "3.8" }
-          - { "django-version": "3.1", "python-version": "3.9" }
-          - { "django-version": "3.2", "python-version": "3.8" }
-          - { "django-version": "3.2", "python-version": "3.9" }
-          - { "django-version": "3.2", "python-version": "3.10" }
-          - { "django-version": "4.0", "python-version": "3.8" }
-          - { "django-version": "4.0", "python-version": "3.9" }
-          - { "django-version": "4.0", "python-version": "3.10" }
-          - { "django-version": "4.0", "python-version": "3.11" }
-          - { "django-version": "4.1", "python-version": "3.8" }
-          - { "django-version": "4.1", "python-version": "3.9" }
-          - { "django-version": "4.1", "python-version": "3.10" }
-          - { "django-version": "4.1", "python-version": "3.11" }
-          - { "django-version": "4.2", "python-version": "3.8" }
-          - { "django-version": "4.2", "python-version": "3.9" }
           - { "django-version": "4.2", "python-version": "3.10" }
           - { "django-version": "4.2", "python-version": "3.11" }
           - { "django-version": "4.2", "python-version": "3.12" }
-          - { "django-version": "5.0", "python-version": "3.10" }
-          - { "django-version": "5.0", "python-version": "3.11" }
-          - { "django-version": "5.0", "python-version": "3.12" }
           - { "django-version": "5.1", "python-version": "3.10" }
           - { "django-version": "5.1", "python-version": "3.11" }
           - { "django-version": "5.1", "python-version": "3.12" }
+          - { "django-version": "5.1", "python-version": "3.13" }
           - { "django-version": "5.2", "python-version": "3.10" }
           - { "django-version": "5.2", "python-version": "3.11" }
           - { "django-version": "5.2", "python-version": "3.12" }
           - { "django-version": "5.2", "python-version": "3.13" }
+          - { "django-version": "5.2", "python-version": "3.14" }
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
+        with:
+          persist-credentials: false
       - name: Setup python
-        uses: actions/setup-python@v5
+        uses: actions/setup-python@v6
         with:
           python-version: ${{ matrix.python-version }}
       - name: Install gettext
@@ -58,3 +41,22 @@ jobs:
           pip install --editable .
           python scripts/messages.py compile
           python -m tests
+
+  lint:
+    name: Lint code
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v5
+        with:
+          persist-credentials: false
+      - name: Setup python
+        uses: actions/setup-python@v6
+        with:
+          python-version: 3.x
+      - name: Update setuptools pip and wheel
+        run: pip install -U setuptools pip wheel
+      - name: Install linting requirements
+        run: pip install -r requirements-lint.txt
+      - name: Lint code
+        run: flake8 --verbose

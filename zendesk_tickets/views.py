@@ -2,6 +2,7 @@ import warnings
 from urllib.parse import urlparse
 
 from django.core.exceptions import NON_FIELD_ERRORS
+
 try:
     from django.utils.http import url_has_allowed_host_and_scheme
 except ImportError:
@@ -33,20 +34,20 @@ class TicketView(FormView):
     ticket_template_name = 'zendesk_tickets/ticket.txt'
     ticket_tags = []
 
-    def __init__(self, *args, **kwargs):
-        super(TicketView, self).__init__(*args, **kwargs)
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
         self.return_to = None
 
     def get(self, request, *args, **kwargs):
         self.return_to = get_safe_return_to(self.request, self.request.META.get('HTTP_REFERER'))
-        return super(TicketView, self).get(request, *args, **kwargs)
+        return super().get(request, *args, **kwargs)
 
     def get_context_data(self, **kwargs):
         kwargs['return_to'] = self.return_to
-        return super(TicketView, self).get_context_data(**kwargs)
+        return super().get_context_data(**kwargs)
 
     def get_initial(self):
-        return dict(referer=self.return_to, **super(TicketView, self).get_initial())
+        return dict(referer=self.return_to, **super().get_initial())
 
     def form_valid(self, form):
         self.return_to = get_safe_return_to(self.request, form.cleaned_data.get('referer'))
@@ -55,19 +56,20 @@ class TicketView(FormView):
         except HTTPError:
             form.add_error(NON_FIELD_ERRORS, _('Unexpected error.'))
             return self.form_invalid(form)
-        return super(TicketView, self).form_valid(form)
+        return super().form_valid(form)
 
     def get_success_url(self):
-        success_url = super(TicketView, self).get_success_url()
+        success_url = super().get_success_url()
         if self.return_to:
-            success_url = '%s?%s=%s' % (success_url, RETURN_URL_PARAM, urlparse(self.return_to).path)
+            return_to = urlparse(self.return_to).path
+            success_url = f'{success_url}?{RETURN_URL_PARAM}={return_to}'
         return success_url
 
 
 class TicketSentView(TemplateView):
     def get_context_data(self, **kwargs):
         kwargs['return_to'] = get_safe_return_to(self.request, self.request.GET.get(RETURN_URL_PARAM))
-        return super(TicketSentView, self).get_context_data(**kwargs)
+        return super().get_context_data(**kwargs)
 
 
 def ticket(request,

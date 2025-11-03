@@ -53,9 +53,6 @@ Development
 .. image:: https://github.com/ministryofjustice/django-zendesk-tickets/actions/workflows/test.yml/badge.svg?branch=main
     :target: https://github.com/ministryofjustice/django-zendesk-tickets/actions/workflows/test.yml
 
-.. image:: https://github.com/ministryofjustice/django-zendesk-tickets/actions/workflows/lint.yml/badge.svg?branch=main
-    :target: https://github.com/ministryofjustice/django-zendesk-tickets/actions/workflows/lint.yml
-
 Please report bugs and open pull requests on `GitHub`_.
 
 To work on changes to this library, it’s recommended to install it in editable mode into a virtual environment,
@@ -77,6 +74,11 @@ Updating and compiling translation files requires the gettext system package to 
 
 History
 -------
+
+0.20
+    Testing on python 3.10 to 3.14.
+    Improve linting and modernise code style.
+    Migrated to trusted publishing.
 
 0.19
     Add experimental support for Django 5.2 & Python 3.13.
@@ -148,7 +150,7 @@ History
 Copyright
 ---------
 
-Copyright (C) 2023 HM Government (Ministry of Justice Digital & Technology).
+Copyright (C) 2025 HM Government (Ministry of Justice Digital & Technology).
 See LICENSE.txt for further details.
 
 .. _Zendesk: https://developer.zendesk.com/rest_api

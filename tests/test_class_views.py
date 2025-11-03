@@ -7,7 +7,7 @@ from django.urls import resolve, reverse
 
 @mock.patch('zendesk_tickets.client.requests')
 class TicketViewTestCase(SimpleTestCase):
-    def assertPostedToZendesk(self, mock_requests, ticket_data):  # noqa
+    def assertPostedToZendesk(self, mock_requests, ticket_data):  # noqa: N802
         self.assertEqual(mock_requests.post.call_count, 1)
         args, kwargs = mock_requests.post.call_args
         kwargs['data'] = json.loads(kwargs['data'])
@@ -124,7 +124,7 @@ class TicketViewTestCase(SimpleTestCase):
             'referer': '/other/page',
             'ticket_content': 'The site is broken',
         }, HTTP_USER_AGENT='test_client')
-        self.assertRedirects(response, '%s?next=/other/page' % reverse('ticket_sent'))
+        self.assertRedirects(response, f"{reverse('ticket_sent')}?next=/other/page")
         self.assertPostedToZendesk(mock_requests, {
             'subject': 'Test Feedback',
             'comment': {'body': 'The site is broken'},
@@ -143,7 +143,7 @@ class TicketViewTestCase(SimpleTestCase):
             'ticket_content': 'The site is broken',
             'contact_email': 'example@example.com',
         }, HTTP_USER_AGENT='test_client')
-        self.assertRedirects(response, '%s?next=/other/page' % reverse('ticket_sent'))
+        self.assertRedirects(response, f"{reverse('ticket_sent')}?next=/other/page")
         self.assertPostedToZendesk(mock_requests, {
             'subject': 'Test Feedback with email address',
             'comment': {'body': 'The site is broken'},

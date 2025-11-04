@@ -31,7 +31,7 @@ urlpatterns = [
             'template_name': 'submit_ticket.html',
             'success_redirect_url': '/',
             'subject': 'Test Feedback',
-            'tags': ['feedback', 'test']
+            'tags': ['feedback', 'test'],
         }, name='submit_ticket'),
     url(r'^feedback-with-email/$', views.ticket,
         {
@@ -39,7 +39,7 @@ urlpatterns = [
             'template_name': 'submit_ticket.html',
             'success_redirect_url': '/',
             'subject': 'Test Feedback with email address',
-            'tags': ['feedback', 'test', 'with-email']
+            'tags': ['feedback', 'test', 'with-email'],
         }, name='submit_ticket_with_email'),
     url(r'^feedback/success$', views.success,
         {

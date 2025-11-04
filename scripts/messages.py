@@ -7,6 +7,8 @@ import sys
 
 from django.core.management import call_command
 
+logger = logging.getLogger(__name__)
+
 
 def main():
     logging.basicConfig(level=logging.INFO, format='%(levelname)s: %(message)s')
@@ -29,11 +31,11 @@ def main():
     os.chdir(root_path / 'zendesk_tickets')
 
     if args.command == 'update':
-        logging.info('Updating localisation message files')
+        logger.info('Updating localisation message files')
         call_command('makemessages', all=True, no_wrap=True, keep_pot=True)
 
     if args.command == 'compile':
-        logging.info('Compiling localisation message files')
+        logger.info('Compiling localisation message files')
         call_command('compilemessages', fuzzy=False)
 
 

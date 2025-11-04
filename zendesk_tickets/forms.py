@@ -45,7 +45,7 @@ class BaseTicketForm(forms.Form):
             tags,
             body,
             requester_email=requester_email,
-            custom_fields=self._populate_custom_fields(context)
+            custom_fields=self._populate_custom_fields(context),
         )
 
 
@@ -55,7 +55,7 @@ class TicketForm(BaseTicketForm):
     """
     ticket_content = forms.CharField(
         label=_('Enter your feedback or any questions you have about this service.'),
-        widget=forms.Textarea
+        widget=forms.Textarea,
     )
 
     def submit_ticket(self, request, subject, tags, ticket_template_name, requester_email=None, extra_context=None):
@@ -74,7 +74,8 @@ class EmailTicketForm(TicketForm):
     Feedback form that also allows entering an email address
     """
     contact_email = forms.EmailField(
-        label=_('Your email address'), required=False
+        label=_('Your email address'),
+        required=False,
     )
 
     def submit_ticket(self, request, subject, tags, ticket_template_name, requester_email=None, extra_context=None):

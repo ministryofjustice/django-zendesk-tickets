@@ -1,8 +1,8 @@
 import json
 from urllib.parse import urljoin
 
-from django.conf import settings
 import requests
+from django.conf import settings
 
 
 def get_ticket_endpoint():
@@ -11,8 +11,8 @@ def get_ticket_endpoint():
 
 def zendesk_auth():
     return (
-        '{username}/token'.format(username=settings.ZENDESK_API_USERNAME),
-        settings.ZENDESK_API_TOKEN
+        f'{settings.ZENDESK_API_USERNAME}/token',
+        settings.ZENDESK_API_TOKEN,
     )
 
 
@@ -22,7 +22,7 @@ def create_ticket(subject, tags, ticket_body, requester_email=None, custom_field
     payload = {'ticket': {
         'subject': subject,
         'comment': {
-            'body': ticket_body
+            'body': ticket_body,
         },
         'group_id': settings.ZENDESK_GROUP_ID,
         'tags': tags,
@@ -31,7 +31,7 @@ def create_ticket(subject, tags, ticket_body, requester_email=None, custom_field
 
     if requester_email:
         payload['ticket']['requester'] = {
-            'name': 'Sender: %s' % requester_email.split('@')[0],
+            'name': f"Sender: {requester_email.split('@')[0]}",
             'email': requester_email,
         }
     else:

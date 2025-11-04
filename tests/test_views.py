@@ -2,7 +2,7 @@ import json
 from unittest import mock
 
 from django.contrib.auth.models import AnonymousUser
-from django.test import SimpleTestCase, RequestFactory, override_settings
+from django.test import RequestFactory, SimpleTestCase, override_settings
 from django.urls import reverse
 
 from zendesk_tickets.views import ticket
@@ -25,7 +25,7 @@ class AssertCalledZendeskPost:
         actual_data = json.loads(data)
         self.test_case.assertEqual(
             sorted(actual_data['ticket'].pop('custom_fields'), key=lambda k: k['id']),
-            sorted(self.expected_data['ticket'].pop('custom_fields'), key=lambda k: k['id'])
+            sorted(self.expected_data['ticket'].pop('custom_fields'), key=lambda k: k['id']),
         )
         self.test_case.assertEqual(
             actual_data,
@@ -70,7 +70,7 @@ class SubmitFeedbackTestCase(SimpleTestCase):
                                           {'id': 31, 'value': '/other/page'},
                                           {'id': 33, 'value': 'test_client'}]}},
             ('zendesk_user/token', 'api_token'),
-            {'content-type': 'application/json'}
+            {'content-type': 'application/json'},
         )
 
         ticket(request, template_name='submit_ticket.html', tags=['test'])
@@ -101,7 +101,7 @@ class SubmitFeedbackTestCase(SimpleTestCase):
                                           {'id': 31, 'value': '/other/page'},
                                           {'id': 33, 'value': 'test_client'}]}},
             ('zendesk_user/token', 'api_token'),
-            {'content-type': 'application/json'}
+            {'content-type': 'application/json'},
         )
 
         ticket(request, template_name='submit_ticket.html', tags=['test'])
@@ -129,7 +129,7 @@ class SubmitFeedbackTestCase(SimpleTestCase):
                                           {'id': 33, 'value': 'test_client'},
                                           {'id': 34, 'value': 'example@example.com'}]}},
             ('zendesk_user/token', 'api_token'),
-            {'content-type': 'application/json'}
+            {'content-type': 'application/json'},
         )
 
         self.client.post(reverse('submit_ticket_with_email'), data=form_data,
@@ -181,7 +181,7 @@ class SubmitFeedbackTestCase(SimpleTestCase):
                                           {'id': 31, 'value': '/other/page'},
                                           {'id': 33, 'value': 'test_client'}]}},
             ('zendesk_user/token', 'api_token'),
-            {'content-type': 'application/json'}
+            {'content-type': 'application/json'},
         )
 
         ticket(request, template_name='submit_ticket.html', tags=['test'])
@@ -207,7 +207,7 @@ class SubmitFeedbackTestCase(SimpleTestCase):
                         'comment': {'body': 'The internet is broken.'},
                         'requester_id': 111111, 'custom_fields': []}},
             ('zendesk_user/token', 'api_token'),
-            {'content-type': 'application/json'}
+            {'content-type': 'application/json'},
         )
 
         ticket(request, template_name='submit_ticket.html', tags=['test'])
